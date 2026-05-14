@@ -2,8 +2,9 @@
 
 A robust, offline-first, cloud-synced Task Management application built with React Native for the TechExactly Technical Assignment.
 
-## 🏗️ Architecture Choice
+### TechExatly apk lin - https://drive.google.com/drive/folders/1RGjQmg59UoSqPmvEQozzdiaOPuY74ZQH
 
+## 🏗️ Architecture Choice
 The architecture is explicitly designed for an **Offline-First Data Flow**:
 - **Single Source of Truth (Local)**: The application's UI strictly reads from and writes to the local **Realm Database** (`task.realm.service.ts`). This guarantees the app is infinitely usable regardless of network conditions.
 - **Background Synchronization**: Upon any CRUD action (Create, Edit, Delete), the app triggers a `syncTasks()` algorithm. If the user is online, unsynced local data is instantly securely vaulted into a Google Firebase / Firestore server. Any structural conflicts automatically resolve in favor of the cloud's freshness timestamps.
