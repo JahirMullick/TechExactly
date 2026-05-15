@@ -3,10 +3,21 @@
 A cross-platform (Android & iOS) task management app built with **React Native** and **TypeScript**.  
 The app lets users sign up, log in, create/edit/delete tasks, and keeps everything working **even without internet**. When the connection comes back, all offline changes sync automatically to the cloud.
 
+<<<<<<< HEAD
 > **GitHub Repository:** [github.com/JahirMullick/TechExactly](https://github.com/JahirMullick/TechExactly)
 > **Download APK:** [Google Drive](https://drive.google.com/drive/folders/1RGjQmg59UoSqPmvEQozzdiaOPuY74ZQH)
 
 ---
+=======
+### TechExatly apk lin - https://drive.google.com/drive/folders/1RGjQmg59UoSqPmvEQozzdiaOPuY74ZQH
+
+## 🏗️ Architecture Choice
+The architecture is explicitly designed for an **Offline-First Data Flow**:
+- **Single Source of Truth (Local)**: The application's UI strictly reads from and writes to the local **Realm Database** (`task.realm.service.ts`). This guarantees the app is infinitely usable regardless of network conditions.
+- **Background Synchronization**: Upon any CRUD action (Create, Edit, Delete), the app triggers a `syncTasks()` algorithm. If the user is online, unsynced local data is instantly securely vaulted into a Google Firebase / Firestore server. Any structural conflicts automatically resolve in favor of the cloud's freshness timestamps.
+- **State Management**: **Redux Toolkit** dictates pure application states — principally, standardizing UI behaviors like global Dark Mode / Theming dynamically across cached Navigation stacks without prop-drilling or stale renders.
+- **Serverless Automation**: **Firebase Cloud Functions (Gen 2)** is utilized off-board to automate the delivery of Push Notifications back towards user devices the exact moment the Firestore network registers a newly synchronized task record. 
+>>>>>>> 9ff256efc5af971278f689563a741fa75ed313b5
 
 ## Table of Contents
 
@@ -322,4 +333,11 @@ firebase deploy --only functions
 
 ## License
 
+<<<<<<< HEAD
 This project was built as a take-home assignment for **TechExactly**.
+=======
+1. **Authentication Restrictions**: Registration exclusively relies on Email/Password. Social OAuth mechanisms have been stripped and are structurally dormant.
+2. **Conflict Resolution Naivety**: If two physical devices use the same exact login and manipulate the exact same task item whilst offline, then both rejoin the internet simultaneously, it's a strict `Latest Write Wins` implementation; there is no granular merging of individual string variables.
+3. **Background Sync Process**: React Native doesn't perfectly guarantee background thread longevity on standard timers when the OS force-sleeps the App. True background batching requires native OS JobSchedulers which aren't fully flushed out here beyond aggressive manual/active-mount re-sync attempts.
+4. **Offline Deletions**: Deletions performed completely offline will permanently wipe the Realm record. The current logic effectively tries to instantly erase the Firebase node if connected, but there is an edge case where an offline delete deletes a Realm object that later fails to wipe from Firebase once the internet returns due to the local `taskId` node already missing. A tombstone syncing system (archiving nodes as 'deleted' rather than purging) would be required for strict multi-device architectural security.
+>>>>>>> 9ff256efc5af971278f689563a741fa75ed313b5
